@@ -514,7 +514,8 @@ function brandsList(){ return Object.keys(STOCK.brands).sort((a,b)=>STOCK.brands
 function brandModels(brand){ const m=STOCK.brands[brand].models; return Object.keys(m).sort((a,b)=>m[b].count-m[a].count); }
 function modelData(brand,model){ return STOCK.brands[brand] && STOCK.brands[brand].models[model]; }
 function modelKey(b,m){ return b+' '+m; }
-function modelPhotos(b,m){ const k=modelKey(b,m); return (PHOTOS[k]||[]); }
+// СТАЛО — если своего фото нет, берём то, что уже пришло из Avto.ru
+function modelPhotos(b,m){ const k=modelKey(b,m); const md=modelData(b,m); return (PHOTOS[k] || (md && md.photoUrls) || []); }
 function modelBenefit(md){
   const base = md.dprice || md.price;
   if(md.rrp && base && md.rrp > base) return md.rrp - base;
